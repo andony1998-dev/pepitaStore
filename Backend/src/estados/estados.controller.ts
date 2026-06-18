@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -31,14 +31,14 @@ export class EstadosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Post()
   create(@Body() dto: CreateEstadoDto) {
     return this.estadosService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateEstadoDto) {
     return this.estadosService.update(id, dto);

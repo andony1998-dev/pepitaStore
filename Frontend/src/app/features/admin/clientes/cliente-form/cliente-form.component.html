@@ -1,0 +1,164 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/admin/clientes" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre -->
+        <div class="field">
+          <label for="nombre" class="label">Nombre <span class="required">*</span></label>
+          <input
+            id="nombre"
+            formControlName="nombre"
+            type="text"
+            class="input"
+            placeholder="Ej: Juan Pérez"
+            [class.input-error]="f['nombre'].touched && f['nombre'].invalid"
+          />
+          @if (f['nombre'].touched && f['nombre'].errors) {
+            <span class="field-error">
+              @if (f['nombre'].errors['required']) { El nombre es obligatorio }
+              @if (f['nombre'].errors['minlength']) { Mínimo 2 caracteres }
+              @if (f['nombre'].errors['maxlength']) { Máximo 255 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- NIT -->
+        <div class="field">
+          <label for="nit" class="label">NIT</label>
+          <input
+            id="nit"
+            formControlName="nit"
+            type="text"
+            class="input"
+            placeholder="Ej: 1234567-8"
+            [class.input-error]="f['nit'].touched && f['nit'].invalid"
+          />
+          @if (f['nit'].touched && f['nit'].errors) {
+            <span class="field-error">
+              @if (f['nit'].errors['maxlength']) { Máximo 20 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Dirección -->
+        <div class="field">
+          <label for="direccion" class="label">Dirección</label>
+          <textarea
+            id="direccion"
+            formControlName="direccion"
+            class="input textarea"
+            placeholder="Ej: 5a Avenida 10-22, Zona 1"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Teléfonos -->
+        <div class="field-row">
+          <div class="field">
+            <label for="telefono" class="label">Teléfono</label>
+            <input
+              id="telefono"
+              formControlName="telefono"
+              type="text"
+              class="input"
+              placeholder="Ej: 2345-6789"
+              [class.input-error]="f['telefono'].touched && f['telefono'].invalid"
+            />
+            @if (f['telefono'].touched && f['telefono'].errors) {
+              <span class="field-error">
+                @if (f['telefono'].errors['maxlength']) { Máximo 20 caracteres }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="telefono2" class="label">Teléfono 2</label>
+            <input
+              id="telefono2"
+              formControlName="telefono2"
+              type="text"
+              class="input"
+              placeholder="Ej: 5678-9012"
+              [class.input-error]="f['telefono2'].touched && f['telefono2'].invalid"
+            />
+            @if (f['telefono2'].touched && f['telefono2'].errors) {
+              <span class="field-error">
+                @if (f['telefono2'].errors['maxlength']) { Máximo 20 caracteres }
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label for="email" class="label">Correo electrónico</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="input"
+            placeholder="Ej: cliente@ejemplo.com"
+            [class.input-error]="f['email'].touched && f['email'].invalid"
+          />
+          @if (f['email'].touched && f['email'].errors) {
+            <span class="field-error">
+              @if (f['email'].errors['email']) { Ingresa un correo válido }
+              @if (f['email'].errors['maxlength']) { Máximo 100 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field field-checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="activo" class="checkbox" />
+            <span>Cliente activo</span>
+          </label>
+          <p class="field-hint">Los clientes inactivos no estarán disponibles para registrar movimientos.</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/admin/clientes" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Cliente' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

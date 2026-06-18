@@ -1,0 +1,208 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/movimientos/consulta" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver al historial
+    </a>
+    <div class="title-row">
+      <span class="tipo-badge" [class.entrada]="isEntrada()" [class.salida]="!isEntrada()">
+        {{ isEntrada() ? '+ Entrada' : '− Salida' }}
+      </span>
+      <h2 class="form-title">
+        {{ isEntrada() ? 'Registro de Entrada' : 'Registro de Salida' }}
+      </h2>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  @if (!isLoading()) {
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Encabezado del movimiento -->
+      <div class="card">
+        <h3 class="section-title">Datos del movimiento</h3>
+
+        <div class="field-grid">
+          <!-- Tipo de movimiento -->
+          <div class="field">
+            <label class="label">Tipo de movimiento <span class="required">*</span></label>
+            <select formControlName="tipoMovimientoId" class="input select"
+              [class.input-error]="f['tipoMovimientoId'].touched && f['tipoMovimientoId'].invalid">
+              <option [ngValue]="null" disabled>Seleccionar...</option>
+              @for (tipo of tipoMovimientos(); track tipo.id) {
+                <option [ngValue]="tipo.id">{{ tipo.descripcion }}</option>
+              }
+            </select>
+            @if (f['tipoMovimientoId'].touched && f['tipoMovimientoId'].errors?.['required']) {
+              <span class="field-error">Selecciona un tipo de movimiento</span>
+            }
+          </div>
+
+          <!-- Fecha -->
+          <div class="field">
+            <label class="label">Fecha y hora</label>
+            <input formControlName="fecha" type="datetime-local" class="input" />
+          </div>
+
+          <!-- Estado -->
+          <div class="field">
+            <label class="label">Estado <span class="required">*</span></label>
+            <select formControlName="estadoId" class="input select"
+              [class.input-error]="f['estadoId'].touched && f['estadoId'].invalid">
+              <option [ngValue]="null" disabled>Seleccionar...</option>
+              @for (estado of estados(); track estado.id) {
+                <option [ngValue]="estado.id">{{ estado.nombre }}</option>
+              }
+            </select>
+            @if (f['estadoId'].touched && f['estadoId'].errors?.['required']) {
+              <span class="field-error">Selecciona un estado</span>
+            }
+          </div>
+
+          <!-- Evento (opcional) -->
+          <div class="field">
+            <label class="label">Evento <span class="optional">(opcional)</span></label>
+            <select formControlName="eventoId" class="input select">
+              <option [ngValue]="null">— Sin evento —</option>
+              @for (evento of eventos(); track evento.id) {
+                <option [ngValue]="evento.id">{{ evento.nombre }}</option>
+              }
+            </select>
+          </div>
+
+          <!-- Proveedor (Entradas) -->
+          @if (isEntrada()) {
+            <div class="field">
+              <label class="label">Proveedor <span class="optional">(opcional)</span></label>
+              <select formControlName="proveedorId" class="input select">
+                <option [ngValue]="null">— Sin proveedor —</option>
+                @for (p of proveedores(); track p.id) {
+                  <option [ngValue]="p.id">{{ p.nombreProveedor }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <!-- Cliente (Salidas) -->
+          @if (!isEntrada()) {
+            <div class="field">
+              <label class="label">Cliente <span class="optional">(opcional)</span></label>
+              <select formControlName="clienteId" class="input select">
+                <option [ngValue]="null">— Sin cliente —</option>
+                @for (c of clientes(); track c.id) {
+                  <option [ngValue]="c.id">{{ c.nombre }}</option>
+                }
+              </select>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Detalle de libros -->
+      <div class="card">
+        <div class="section-header">
+          <h3 class="section-title">Detalle de libros</h3>
+          <button type="button" class="btn-add-line" (click)="agregarDetalle()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon-sm">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Agregar libro
+          </button>
+        </div>
+
+        <div class="detail-table-wrapper">
+          <table class="detail-table">
+            <thead>
+              <tr>
+                <th>Libro</th>
+                <th class="col-num">Cantidad</th>
+                <th class="col-num">Precio unit.</th>
+                <th class="col-num">Desc. %</th>
+                <th class="col-num">Total línea</th>
+                <th class="col-action"></th>
+              </tr>
+            </thead>
+            <tbody formArrayName="detalles">
+              @for (detalle of detallesArray.controls; track $index) {
+                <tr [formGroupName]="$index">
+                  <td>
+                    <select formControlName="libroId" class="input select-libro"
+                      (change)="onLibroChange($index)"
+                      [class.input-error]="detalle.get('libroId')?.touched && detalle.get('libroId')?.invalid">
+                      <option [ngValue]="null" disabled>Seleccionar libro...</option>
+                      @for (libro of libros(); track libro.id) {
+                        <option [ngValue]="libro.id">{{ libro.titulo }} — {{ libro.isbn }}</option>
+                      }
+                    </select>
+                    @if (detalle.get('libroId')?.touched && detalle.get('libroId')?.invalid) {
+                      <span class="field-error-inline">Requerido</span>
+                    }
+                  </td>
+                  <td>
+                    <input formControlName="cantidad" type="number" min="1" class="input input-num"
+                      [class.input-error]="detalle.get('cantidad')?.touched && detalle.get('cantidad')?.invalid" />
+                  </td>
+                  <td>
+                    <input formControlName="precioUnitario" type="number" min="0" step="0.01" class="input input-num" />
+                  </td>
+                  <td>
+                    <input formControlName="porcentajeDescuento" type="number" min="0" max="100" step="0.01" class="input input-num" />
+                  </td>
+                  <td class="col-total">
+                    {{ detalle.get('precioFinal')?.value | currency:'GTQ ':'symbol':'1.2-2' }}
+                  </td>
+                  <td>
+                    <button type="button" class="btn-remove" (click)="eliminarDetalle($index)"
+                      [disabled]="detallesArray.length === 1" title="Eliminar línea">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="icon-remove">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" class="total-label">Total general</td>
+                <td class="total-value">{{ totalGeneral | currency:'GTQ ':'symbol':'1.2-2' }}</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <a routerLink="/movimientos/consulta" class="btn-cancel">Cancelar</a>
+        <button type="submit" class="btn-save" [class.entrada]="isEntrada()" [class.salida]="!isEntrada()" [disabled]="isSaving()">
+          @if (isSaving()) {
+            <div class="spinner-sm"></div>
+            Guardando...
+          } @else {
+            Registrar {{ isEntrada() ? 'Entrada' : 'Salida' }}
+          }
+        </button>
+      </div>
+    </form>
+  }
+</div>

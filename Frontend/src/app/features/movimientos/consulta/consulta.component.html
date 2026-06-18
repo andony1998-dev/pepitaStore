@@ -1,0 +1,108 @@
+<div class="list-container">
+  <!-- Header -->
+  <div class="list-header">
+    <div>
+      <h2 class="list-title">Consulta de Movimientos</h2>
+      <p class="list-subtitle">Historial de entradas y salidas de inventario</p>
+    </div>
+    <div class="header-actions">
+      <a routerLink="/movimientos/entradas" class="btn-entrada">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Nueva Entrada
+      </a>
+      <a routerLink="/movimientos/salidas" class="btn-salida">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Nueva Salida
+      </a>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="filtro() === 'todos'" (click)="setFiltro('todos')">
+      Todos ({{ movimientos().length }})
+    </button>
+    <button class="filter-btn entrada" [class.active]="filtro() === 'entradas'" (click)="setFiltro('entradas')">
+      Entradas ({{ contadorEntradas() }})
+    </button>
+    <button class="filter-btn salida" [class.active]="filtro() === 'salidas'" (click)="setFiltro('salidas')">
+      Salidas ({{ contadorSalidas() }})
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando movimientos...</span>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage()) {
+    <div class="error-alert">
+      <span>{{ errorMessage() }}</span>
+      <button class="retry-btn" (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  <!-- Tabla -->
+  @if (!isLoading() && !errorMessage()) {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tipo</th>
+            <th>Fecha</th>
+            <th>Cliente / Proveedor</th>
+            <th>Estado</th>
+            <th>Evento</th>
+            <th>Usuario</th>
+            <th class="col-right">Libros</th>
+            <th class="col-right">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (movimientosFiltrados().length === 0) {
+            <tr>
+              <td colspan="9" class="empty-row">No hay movimientos registrados</td>
+            </tr>
+          }
+          @for (mov of movimientosFiltrados(); track mov.id) {
+            <tr>
+              <td class="cell-id">#{{ mov.id }}</td>
+              <td>
+                <div class="tipo-cell">
+                  <span class="op-badge" [class.entrada]="mov.tipoMovimiento?.operacion === 1" [class.salida]="mov.tipoMovimiento?.operacion === -1">
+                    {{ mov.tipoMovimiento?.operacion === 1 ? '+' : '−' }}
+                  </span>
+                  <span>{{ mov.tipoMovimiento?.descripcion ?? '—' }}</span>
+                </div>
+              </td>
+              <td class="cell-fecha">{{ mov.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>
+                @if (mov.tipoMovimiento?.operacion === 1) {
+                  {{ mov.proveedor?.nombreProveedor ?? '—' }}
+                } @else {
+                  {{ mov.cliente?.nombre ?? '—' }}
+                }
+              </td>
+              <td>
+                <span class="estado-badge">{{ mov.estado?.nombre ?? '—' }}</span>
+              </td>
+              <td>{{ mov.evento?.nombre ?? '—' }}</td>
+              <td class="cell-user">{{ mov.usuario }}</td>
+              <td class="col-right">{{ contarLibros(mov) }}</td>
+              <td class="col-right cell-total">{{ totalMovimiento(mov) | currency:'GTQ ':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

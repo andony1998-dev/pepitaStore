@@ -1,0 +1,77 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/admin/ambitos" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Ámbito' : 'Nuevo Ámbito' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Descripción -->
+        <div class="field">
+          <label for="descripcion" class="label">Descripción del ámbito <span class="required">*</span></label>
+          <input
+            id="descripcion"
+            formControlName="descripcion"
+            type="text"
+            class="input"
+            placeholder="Ej: Ciencias Sociales"
+            [class.input-error]="f['descripcion'].touched && f['descripcion'].invalid"
+          />
+          @if (f['descripcion'].touched && f['descripcion'].errors) {
+            <span class="field-error">
+              @if (f['descripcion'].errors['required']) { La descripción es obligatoria }
+              @if (f['descripcion'].errors['minlength']) { Mínimo 2 caracteres }
+              @if (f['descripcion'].errors['maxlength']) { Máximo 100 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field field-checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="activo" class="checkbox" />
+            <span>Ámbito activo</span>
+          </label>
+          <p class="field-hint">Los ámbitos inactivos no estarán disponibles para asignar.</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/admin/ambitos" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Ámbito' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

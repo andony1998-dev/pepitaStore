@@ -1,0 +1,81 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/inventario/autores" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Autor' : 'Nuevo Autor' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Nombre completo -->
+        <div class="field">
+          <label for="nombre_completo" class="label">Nombre completo</label>
+          <input id="nombre_completo" formControlName="nombre_completo" type="text" class="input"
+            placeholder="Ej: Gabriel García Márquez" [class.input-error]="f['nombre_completo'].touched && f['nombre_completo'].invalid" />
+          @if (f['nombre_completo'].touched && f['nombre_completo'].errors) {
+            <span class="field-error">
+              @if (f['nombre_completo'].errors['required']) { El nombre es obligatorio }
+              @if (f['nombre_completo'].errors['minlength']) { Mínimo 3 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="field">
+          <label for="fecha_nacimiento" class="label">Fecha de nacimiento</label>
+          <input id="fecha_nacimiento" formControlName="fecha_nacimiento" type="date" class="input" />
+        </div>
+
+        <!-- Nacionalidad -->
+        <div class="field">
+          <label for="nacionalidad" class="label">Nacionalidad</label>
+          <input id="nacionalidad" formControlName="nacionalidad" type="text" class="input"
+            placeholder="Ej: Colombiana" />
+        </div>
+
+        <!-- Género literario -->
+        <div class="field">
+          <label for="genero_literario" class="label">Género literario</label>
+          <input id="genero_literario" formControlName="genero_literario" type="text" class="input"
+            placeholder="Ej: Realismo Mágico" />
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/inventario/autores" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Autor' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

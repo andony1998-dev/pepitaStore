@@ -1,0 +1,115 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/admin/tipo-movimientos" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Tipo de Movimiento' : 'Nuevo Tipo de Movimiento' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Descripción -->
+        <div class="field">
+          <label for="descripcion" class="label">Descripción <span class="required">*</span></label>
+          <input
+            id="descripcion"
+            formControlName="descripcion"
+            type="text"
+            class="input"
+            placeholder="Ej: Compra de inventario"
+            [class.input-error]="f['descripcion'].touched && f['descripcion'].invalid"
+          />
+          @if (f['descripcion'].touched && f['descripcion'].errors) {
+            <span class="field-error">
+              @if (f['descripcion'].errors['required']) { La descripción es obligatoria }
+              @if (f['descripcion'].errors['minlength']) { Mínimo 2 caracteres }
+              @if (f['descripcion'].errors['maxlength']) { Máximo 100 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Operación -->
+        <div class="field">
+          <label class="label">Operación <span class="required">*</span></label>
+          <p class="field-hint">Define si este tipo de movimiento suma o resta del inventario.</p>
+          <div class="operacion-group">
+            <label class="operacion-option" [class.selected]="f['operacion'].value === 1">
+              <input
+                type="radio"
+                formControlName="operacion"
+                [value]="1"
+                class="radio-hidden"
+              />
+              <div class="operacion-card suma">
+                <span class="operacion-symbol">+</span>
+                <span class="operacion-label">Suma</span>
+                <span class="operacion-desc">Incrementa el inventario</span>
+              </div>
+            </label>
+            <label class="operacion-option" [class.selected]="f['operacion'].value === -1">
+              <input
+                type="radio"
+                formControlName="operacion"
+                [value]="-1"
+                class="radio-hidden"
+              />
+              <div class="operacion-card resta">
+                <span class="operacion-symbol">−</span>
+                <span class="operacion-label">Resta</span>
+                <span class="operacion-desc">Decrementa el inventario</span>
+              </div>
+            </label>
+          </div>
+          @if (f['operacion'].touched && f['operacion'].errors) {
+            <span class="field-error">Debes seleccionar una operación</span>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field field-checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="activo" class="checkbox" />
+            <span>Tipo de movimiento activo</span>
+          </label>
+          <p class="field-hint">Los tipos inactivos no estarán disponibles para registrar movimientos.</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/admin/tipo-movimientos" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Tipo' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

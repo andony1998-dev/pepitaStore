@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@import "@angular/material/prebuilt-themes/azure-blue.css";
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: "Inter", "Roboto", Arial, sans-serif;
+  background-color: #f1f5f9;
+}

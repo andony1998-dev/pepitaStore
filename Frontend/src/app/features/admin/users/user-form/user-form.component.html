@@ -1,0 +1,107 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/admin/users" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Username -->
+          <div class="field">
+            <label for="username" class="label">Usuario</label>
+            <input id="username" formControlName="username" type="text" class="input"
+              placeholder="Ej: juan_perez" [class.input-error]="f['username'].touched && f['username'].invalid" />
+            @if (f['username'].touched && f['username'].errors) {
+              <span class="field-error">
+                @if (f['username'].errors['required']) { El usuario es obligatorio }
+                @if (f['username'].errors['minlength']) { Mínimo 3 caracteres }
+              </span>
+            }
+          </div>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="email" class="label">Email</label>
+            <input id="email" formControlName="email" type="email" class="input"
+              placeholder="Ej: juan@correo.com" [class.input-error]="f['email'].touched && f['email'].invalid" />
+            @if (f['email'].touched && f['email'].errors) {
+              <span class="field-error">
+                @if (f['email'].errors['required']) { El email es obligatorio }
+                @if (f['email'].errors['email']) { Ingresa un email válido }
+              </span>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <label for="password" class="label">
+              Contraseña
+              @if (isEdit()) { <span class="label-hint">(dejar vacío para no cambiar)</span> }
+            </label>
+            <input id="password" formControlName="password" type="password" class="input"
+              placeholder="Mínimo 6 caracteres" [class.input-error]="f['password'].touched && f['password'].invalid" />
+            @if (f['password'].touched && f['password'].errors) {
+              <span class="field-error">
+                @if (f['password'].errors['required']) { La contraseña es obligatoria }
+                @if (f['password'].errors['minlength']) { Mínimo 6 caracteres }
+              </span>
+            }
+          </div>
+
+          <!-- Role -->
+          <div class="field">
+            <label for="rol_id" class="label">Rol</label>
+            <select id="rol_id" formControlName="rol_id" class="input"
+              [class.input-error]="f['rol_id'].touched && f['rol_id'].invalid">
+              <option value="" disabled>Seleccionar rol</option>
+              @for (rol of roles(); track rol.id) {
+                <option [value]="rol.id">{{ rol.nombre }}</option>
+              }
+            </select>
+            @if (f['rol_id'].touched && f['rol_id'].errors) {
+              <span class="field-error">Selecciona un rol</span>
+            }
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/admin/users" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Usuario' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

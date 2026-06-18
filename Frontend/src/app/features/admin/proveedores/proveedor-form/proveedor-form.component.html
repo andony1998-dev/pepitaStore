@@ -1,0 +1,146 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/admin/proveedores" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Nombre Proveedor -->
+        <div class="field">
+          <label for="nombreProveedor" class="label">Nombre del proveedor <span class="required">*</span></label>
+          <input
+            id="nombreProveedor"
+            formControlName="nombreProveedor"
+            type="text"
+            class="input"
+            placeholder="Ej: Distribuidora Nacional S.A."
+            [class.input-error]="f['nombreProveedor'].touched && f['nombreProveedor'].invalid"
+          />
+          @if (f['nombreProveedor'].touched && f['nombreProveedor'].errors) {
+            <span class="field-error">
+              @if (f['nombreProveedor'].errors['required']) { El nombre es obligatorio }
+              @if (f['nombreProveedor'].errors['minlength']) { Mínimo 2 caracteres }
+              @if (f['nombreProveedor'].errors['maxlength']) { Máximo 255 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Dirección -->
+        <div class="field">
+          <label for="direccion" class="label">Dirección</label>
+          <textarea
+            id="direccion"
+            formControlName="direccion"
+            class="input textarea"
+            placeholder="Ej: Zona Industrial, Bodega 5"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Teléfonos -->
+        <div class="field-row">
+          <div class="field">
+            <label for="telefono" class="label">Teléfono</label>
+            <input
+              id="telefono"
+              formControlName="telefono"
+              type="text"
+              class="input"
+              placeholder="Ej: 2345-6789"
+              [class.input-error]="f['telefono'].touched && f['telefono'].invalid"
+            />
+            @if (f['telefono'].touched && f['telefono'].errors) {
+              <span class="field-error">
+                @if (f['telefono'].errors['maxlength']) { Máximo 20 caracteres }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="telefono2" class="label">Teléfono 2</label>
+            <input
+              id="telefono2"
+              formControlName="telefono2"
+              type="text"
+              class="input"
+              placeholder="Ej: 5678-9012"
+              [class.input-error]="f['telefono2'].touched && f['telefono2'].invalid"
+            />
+            @if (f['telefono2'].touched && f['telefono2'].errors) {
+              <span class="field-error">
+                @if (f['telefono2'].errors['maxlength']) { Máximo 20 caracteres }
+              </span>
+            }
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="field">
+          <label for="email" class="label">Correo electrónico</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="input"
+            placeholder="Ej: contacto@proveedor.com"
+            [class.input-error]="f['email'].touched && f['email'].invalid"
+          />
+          @if (f['email'].touched && f['email'].errors) {
+            <span class="field-error">
+              @if (f['email'].errors['email']) { Ingresa un correo válido }
+              @if (f['email'].errors['maxlength']) { Máximo 100 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field field-checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" formControlName="activo" class="checkbox" />
+            <span>Proveedor activo</span>
+          </label>
+          <p class="field-hint">Los proveedores inactivos no estarán disponibles para registrar movimientos.</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/admin/proveedores" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Proveedor' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

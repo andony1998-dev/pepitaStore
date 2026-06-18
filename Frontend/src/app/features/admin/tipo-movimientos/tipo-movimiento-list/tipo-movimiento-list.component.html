@@ -1,0 +1,103 @@
+<div class="list-container">
+  <!-- Header -->
+  <div class="list-header">
+    <div>
+      <h2 class="list-title">Gestión de Tipos de Movimiento</h2>
+      <p class="list-subtitle">Administra los tipos de movimiento disponibles en el sistema</p>
+    </div>
+    <a routerLink="/admin/tipo-movimientos/new" class="btn-primary">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      Nuevo Tipo
+    </a>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando tipos de movimiento...</span>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage()) {
+    <div class="error-alert">
+      {{ errorMessage() }}
+      <button (click)="loadTipoMovimientos()" class="retry-btn">Reintentar</button>
+    </div>
+  }
+
+  <!-- Table -->
+  @if (!isLoading() && !errorMessage()) {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Operación</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tipo of tipoMovimientos(); track tipo.id) {
+            <tr [class.row-inactive]="!tipo.activo">
+              <td>{{ tipo.id }}</td>
+              <td class="cell-bold">{{ tipo.descripcion }}</td>
+              <td>
+                @if (tipo.operacion === 1) {
+                  <span class="badge suma">+ Suma</span>
+                } @else {
+                  <span class="badge resta">− Resta</span>
+                }
+              </td>
+              <td>
+                @if (tipo.activo) {
+                  <span class="badge active">Activo</span>
+                } @else {
+                  <span class="badge inactive">Inactivo</span>
+                }
+              </td>
+              <td class="actions-cell">
+                <a [routerLink]="['/admin/tipo-movimientos', tipo.id, 'edit']" class="action-btn edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 0 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg>
+                  Editar
+                </a>
+                <button
+                  class="action-btn"
+                  [class.deactivate]="tipo.activo"
+                  [class.activate]="!tipo.activo"
+                  [disabled]="togglingId() === tipo.id"
+                  (click)="toggleActivo(tipo)"
+                >
+                  @if (togglingId() === tipo.id) {
+                    <div class="spinner-xs"></div>
+                  } @else if (tipo.activo) {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                    Desactivar
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    Activar
+                  }
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="empty-row">No hay tipos de movimiento registrados</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

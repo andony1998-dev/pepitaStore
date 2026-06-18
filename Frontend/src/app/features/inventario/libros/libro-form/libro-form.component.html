@@ -1,0 +1,119 @@
+<div class="form-container">
+  <!-- Header -->
+  <div class="form-header">
+    <a routerLink="/inventario/libros" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="back-icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      Volver
+    </a>
+    <h2 class="form-title">{{ isEdit() ? 'Editar Libro' : 'Nuevo Libro' }}</h2>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando datos...</span>
+    </div>
+  }
+
+  <!-- Alerts -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="alert alert-success">{{ successMessage() }}</div>
+  }
+
+  <!-- Form -->
+  @if (!isLoading()) {
+    <div class="card">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Título -->
+        <div class="field">
+          <label for="titulo" class="label">Título</label>
+          <input id="titulo" formControlName="titulo" type="text" class="input input-wide"
+            placeholder="Ej: Cien Años de Soledad" [class.input-error]="f['titulo'].touched && f['titulo'].invalid" />
+          @if (f['titulo'].touched && f['titulo'].errors) {
+            <span class="field-error">
+              @if (f['titulo'].errors['required']) { El título es obligatorio }
+              @if (f['titulo'].errors['minlength']) { Mínimo 2 caracteres }
+            </span>
+          }
+        </div>
+
+        <!-- ISBN + Autor (row) -->
+        <div class="field-row">
+          <div class="field">
+            <label for="isbn" class="label">ISBN</label>
+            <input id="isbn" formControlName="isbn" type="text" class="input"
+              placeholder="Ej: 978-3-16-148410-0" [class.input-error]="f['isbn'].touched && f['isbn'].invalid" />
+            @if (f['isbn'].touched && f['isbn'].errors) {
+              <span class="field-error">El ISBN es obligatorio</span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="autor_id" class="label">Autor</label>
+            <select id="autor_id" formControlName="autor_id" class="input select"
+              [class.input-error]="f['autor_id'].touched && f['autor_id'].invalid">
+              <option value="" disabled>Selecciona un autor</option>
+              @for (autor of autores(); track autor.id) {
+                <option [value]="autor.id">{{ autor.nombre_completo }}</option>
+              }
+            </select>
+            @if (f['autor_id'].touched && f['autor_id'].errors) {
+              <span class="field-error">Debe seleccionar un autor</span>
+            }
+          </div>
+        </div>
+
+        <!-- Precio + Stock + Fecha (row) -->
+        <div class="field-row triple">
+          <div class="field">
+            <label for="precio" class="label">Precio (Q)</label>
+            <input id="precio" formControlName="precio" type="number" class="input" step="0.01" min="0"
+              [class.input-error]="f['precio'].touched && f['precio'].invalid" />
+            @if (f['precio'].touched && f['precio'].errors) {
+              <span class="field-error">
+                @if (f['precio'].errors['required']) { El precio es obligatorio }
+                @if (f['precio'].errors['min']) { No puede ser negativo }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="stock" class="label">Stock</label>
+            <input id="stock" formControlName="stock" type="number" class="input" min="0"
+              [class.input-error]="f['stock'].touched && f['stock'].invalid" />
+            @if (f['stock'].touched && f['stock'].errors) {
+              <span class="field-error">
+                @if (f['stock'].errors['required']) { El stock es obligatorio }
+                @if (f['stock'].errors['min']) { No puede ser negativo }
+              </span>
+            }
+          </div>
+
+          <div class="field">
+            <label for="fecha_publicacion" class="label">Fecha de publicación</label>
+            <input id="fecha_publicacion" formControlName="fecha_publicacion" type="date" class="input" />
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="form-actions">
+          <a routerLink="/inventario/libros" class="btn-cancel">Cancelar</a>
+          <button type="submit" class="btn-save" [disabled]="isSaving()">
+            @if (isSaving()) {
+              <div class="spinner-sm"></div>
+              Guardando...
+            } @else {
+              {{ isEdit() ? 'Actualizar' : 'Crear Libro' }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

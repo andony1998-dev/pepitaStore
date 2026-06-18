@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -36,14 +36,14 @@ export class LibrosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Post()
   create(@Body() dto: CreateLibroDto) {
     return this.librosService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateLibroDto) {
     return this.librosService.update(id, dto);

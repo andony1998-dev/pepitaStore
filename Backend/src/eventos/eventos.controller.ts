@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -31,14 +31,14 @@ export class EventosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Post()
   create(@Body() dto: CreateEventoDto) {
     return this.eventosService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateEventoDto) {
     return this.eventosService.update(id, dto);

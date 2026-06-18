@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -31,14 +31,14 @@ export class AmbitosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Post()
   create(@Body() dto: CreateAmbitoDto) {
     return this.ambitosService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateAmbitoDto) {
     return this.ambitosService.update(id, dto);

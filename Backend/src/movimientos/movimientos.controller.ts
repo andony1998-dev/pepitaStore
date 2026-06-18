@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller, Get, Post, Param, Body,
   UseGuards, ParseIntPipe, Query, Req, DefaultValuePipe,
 } from '@nestjs/common';
@@ -29,7 +29,7 @@ export class MovimientosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Post()
   create(@Body() dto: CreateMovimientoDto, @Req() req: { user: { username: string } }) {
     const usuario = (req.user as { username: string }).username;

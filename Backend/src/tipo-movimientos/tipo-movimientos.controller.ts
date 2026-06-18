@@ -1,4 +1,4 @@
-import {
+﻿import {
   Controller,
   Get,
   Post,
@@ -31,14 +31,14 @@ export class TipoMovimientosController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Post()
   create(@Body() dto: CreateTipoMovimientoDto) {
     return this.tipoMovimientosService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin')
+  @Roles('Administrador')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTipoMovimientoDto) {
     return this.tipoMovimientosService.update(id, dto);

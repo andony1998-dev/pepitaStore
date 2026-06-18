@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards, ParseIntPipe, Query, DefaultValuePipe } from '@nestjs/common';
+﻿import { Controller, Get, Post, Patch, Param, Body, UseGuards, ParseIntPipe, Query, DefaultValuePipe } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -25,14 +25,14 @@ export class ProveedoresController {
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Post()
   create(@Body() dto: CreateProveedorDto) {
     return this.proveedoresService.create(dto);
   }
 
   @UseGuards(RolesGuard)
-  @Roles('admin', 'gerente')
+  @Roles('Administrador', 'gerente')
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProveedorDto) {
     return this.proveedoresService.update(id, dto);

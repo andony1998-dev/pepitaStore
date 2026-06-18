@@ -51,6 +51,7 @@ import { DetalleMovimiento } from './movimientos/entities/detalle-movimiento.ent
         database: config.get<string>('DB_NAME'),
         entities: [Usuario, Rol, PermisoMenu, Autor, Libro, Evento, Ambito, Estado, TipoMovimiento, Cliente, Proveedor, Movimiento, DetalleMovimiento],
         synchronize: false, // La base de datos ya existe; no alterar el esquema
+        ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       }),
     }),
     AuthModule,

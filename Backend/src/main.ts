@@ -10,6 +10,7 @@ async function bootstrap() {
 
   const isProduction = process.env.NODE_ENV === 'production';
   const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const deployPreviewRegex = /^https:\/\/[a-zA-Z0-9-]+\.(onrender\.com|vercel\.app)$/;
   const productionOrigins = (process.env.FRONTEND_URL ?? '').split(',').map(s => s.trim()).filter(Boolean);
 
   app.enableCors({
@@ -20,7 +21,10 @@ async function bootstrap() {
           : callback(null, true);
       }
       if (isProduction) {
-        return productionOrigins.includes(origin)
+        const allowed =
+          productionOrigins.includes(origin) ||
+          deployPreviewRegex.test(origin);
+        return allowed
           ? callback(null, true)
           : callback(new Error('Not allowed by CORS'));
       }

@@ -9,26 +9,23 @@ async function bootstrap() {
   app.use(helmet());
 
   const isProduction = process.env.NODE_ENV === 'production';
-  const localhostRegex = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
-  const deployPreviewRegex = /^https:\/\/[a-zA-Z0-9-]+\.(onrender\.com|vercel\.app)$/;
-  const productionOrigins = (process.env.FRONTEND_URL ?? '').split(',').map(s => s.trim()).filter(Boolean);
+
+  const productionAllowed = [
+    /\.onrender\.com$/,
+    /\.vercel\.app$/,
+    /^https?:\/\/localhost(:\d+)?$/,
+    /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  ];
+  const developmentAllowed = [
+    /^https?:\/\/localhost(:\d+)?$/,
+    /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+  ];
 
   app.enableCors({
     origin: (origin, callback) => {
-      if (!origin) {
-        return isProduction
-          ? callback(new Error('Not allowed by CORS'))
-          : callback(null, true);
-      }
-      if (isProduction) {
-        const allowed =
-          productionOrigins.includes(origin) ||
-          deployPreviewRegex.test(origin);
-        return allowed
-          ? callback(null, true)
-          : callback(new Error('Not allowed by CORS'));
-      }
-      return localhostRegex.test(origin)
+      if (!origin) return callback(null, true);
+      const patterns = isProduction ? productionAllowed : developmentAllowed;
+      return patterns.some(r => r.test(origin))
         ? callback(null, true)
         : callback(new Error('Not allowed by CORS'));
     },

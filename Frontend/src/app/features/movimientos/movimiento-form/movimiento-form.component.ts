@@ -10,8 +10,6 @@ import { ProveedorService } from '../../../core/services/proveedor.service';
 import { EstadoService } from '../../../core/services/estado.service';
 import { EventoService } from '../../../core/services/evento.service';
 import { LibroService } from '../../../core/services/libro.service';
-import { AuthService } from '../../../core/services/auth.service';
-
 import { TipoMovimiento } from '../../../core/models/tipo-movimiento.model';
 import { Cliente } from '../../../core/models/cliente.model';
 import { Proveedor } from '../../../core/models/proveedor.model';
@@ -38,7 +36,6 @@ export class MovimientoFormComponent implements OnInit {
   private estadoService    = inject(EstadoService);
   private eventoService    = inject(EventoService);
   private libroService     = inject(LibroService);
-  private authService      = inject(AuthService);
 
   // operacion: 1 = Entrada, -1 = Salida (viene de route.data)
   operacion = signal<1 | -1>(1);
@@ -161,7 +158,6 @@ export class MovimientoFormComponent implements OnInit {
       clienteId:        raw.clienteId ? Number(raw.clienteId) : undefined,
       proveedorId:      raw.proveedorId ? Number(raw.proveedorId) : undefined,
       estadoId:         Number(raw.estadoId),
-      usuario:          this.authService.user()?.username ?? 'sistema',
       eventoId:         raw.eventoId ? Number(raw.eventoId) : undefined,
       detalles: raw.detalles.map(d => ({
         libroId:             Number(d.libroId),

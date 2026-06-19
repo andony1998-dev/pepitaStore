@@ -16,12 +16,12 @@ import { Proveedor } from '../../../core/models/proveedor.model';
 import { Estado } from '../../../core/models/estado.model';
 import { Evento } from '../../../core/models/evento.model';
 import { Libro } from '../../../core/models/libro.model';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-movimiento-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CurrencyPipe, DatePipe],
+  imports: [ReactiveFormsModule, RouterLink, CurrencyPipe],
   templateUrl: './movimiento-form.component.html',
   styleUrl: './movimiento-form.component.css',
 })

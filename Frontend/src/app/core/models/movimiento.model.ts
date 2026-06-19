@@ -40,7 +40,6 @@ export interface CreateMovimientoRequest {
   clienteId?: number;
   proveedorId?: number;
   estadoId: number;
-  usuario: string;
   eventoId?: number;
   detalles: CreateDetalleRequest[];
 }

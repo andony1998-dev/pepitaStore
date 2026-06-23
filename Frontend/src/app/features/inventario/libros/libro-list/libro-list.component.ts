@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { LibroService } from '../../../../core/services/libro.service';
 import { Libro } from '../../../../core/models/libro.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-libro-list',
   standalone: true,
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, HelpButtonComponent],
   templateUrl: './libro-list.component.html',
   styleUrl: './libro-list.component.css',
 })

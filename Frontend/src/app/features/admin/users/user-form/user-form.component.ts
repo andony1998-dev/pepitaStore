@@ -10,11 +10,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserService } from '../../../../core/services/user.service';
 import { Rol } from '../../../../core/models/user.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-user-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, HelpButtonComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css',
 })

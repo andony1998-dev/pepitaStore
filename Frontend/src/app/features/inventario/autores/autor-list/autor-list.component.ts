@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AutorService } from '../../../../core/services/autor.service';
 import { Autor } from '../../../../core/models/autor.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-autor-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HelpButtonComponent],
   templateUrl: './autor-list.component.html',
   styleUrl: './autor-list.component.css',
 })

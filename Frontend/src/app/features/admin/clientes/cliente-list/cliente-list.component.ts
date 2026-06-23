@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ClienteService } from '../../../../core/services/cliente.service';
 import { Cliente } from '../../../../core/models/cliente.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-cliente-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HelpButtonComponent],
   templateUrl: './cliente-list.component.html',
   styleUrl: './cliente-list.component.css',
 })

@@ -11,11 +11,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LibroService } from '../../../../core/services/libro.service';
 import { AutorService } from '../../../../core/services/autor.service';
 import { Autor } from '../../../../core/models/autor.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-libro-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, HelpButtonComponent],
   templateUrl: './libro-form.component.html',
   styleUrl: './libro-form.component.css',
 })

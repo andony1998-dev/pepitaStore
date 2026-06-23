@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+      <app-help-button
+        title="Clientes"
+        description="Administra la información de las personas o entidades a quienes se les entregan libros (salidas o ventas). Permite registrar nombre, NIT, dirección, teléfonos y correo, datos que luego se asocian a los movimientos de salida.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

@@ -9,11 +9,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { EventoService } from '../../../../core/services/evento.service';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-evento-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, HelpButtonComponent],
   templateUrl: './evento-form.component.html',
   styleUrl: './evento-form.component.css',
 })

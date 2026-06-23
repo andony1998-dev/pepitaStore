@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EventoService } from '../../../../core/services/evento.service';
 import { Evento } from '../../../../core/models/evento.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-evento-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HelpButtonComponent],
   templateUrl: './evento-list.component.html',
   styleUrl: './evento-list.component.css',
 })

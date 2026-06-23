@@ -5,12 +5,18 @@
       <h2 class="list-title">Gestión de Autores</h2>
       <p class="list-subtitle">Administra la información de los autores</p>
     </div>
-    <a routerLink="/inventario/autores/new" class="btn-primary">
+    <div class="flex items-center gap-2">
+      <app-help-button
+        title="Autores"
+        description="Administra el catálogo de autores de los libros. Aquí registras y editas los datos de cada autor (nombre, fecha de nacimiento, nacionalidad y género literario). Cada libro debe estar asociado a un autor, por lo que este módulo es la base para dar de alta nuevos títulos.">
+      </app-help-button>
+      <a routerLink="/inventario/autores/new" class="btn-primary">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
       Nuevo Autor
     </a>
+    </div>
   </div>
 
   <!-- Loading -->

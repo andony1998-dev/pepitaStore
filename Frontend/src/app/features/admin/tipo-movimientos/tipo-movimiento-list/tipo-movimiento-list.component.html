@@ -5,12 +5,18 @@
       <h2 class="list-title">Gestión de Tipos de Movimiento</h2>
       <p class="list-subtitle">Administra los tipos de movimiento disponibles en el sistema</p>
     </div>
-    <a routerLink="/admin/tipo-movimientos/new" class="btn-primary">
+    <div class="flex items-center gap-2">
+      <app-help-button
+        title="Tipo Movimientos"
+        description="Define los tipos de operación que afectan el inventario y si cada uno suma (+1) o resta (-1) existencias. Esta configuración es clave porque determina automáticamente cómo se actualiza el stock al registrar entradas o salidas.">
+      </app-help-button>
+      <a routerLink="/admin/tipo-movimientos/new" class="btn-primary">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
       Nuevo Tipo
     </a>
+    </div>
   </div>
 
   <!-- Loading -->

@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { UserService } from '../../../../core/services/user.service';
 import { User } from '../../../../core/models/user.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [RouterLink, DatePipe],
+  imports: [RouterLink, DatePipe, HelpButtonComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
 })

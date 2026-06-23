@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Autor' : 'Nuevo Autor' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Autor' : 'Nuevo Autor' }}</h2>
+      <app-help-button
+        title="Autores"
+        description="Administra el catálogo de autores de los libros. Aquí registras y editas los datos de cada autor (nombre, fecha de nacimiento, nacionalidad y género literario). Cada libro debe estar asociado a un autor, por lo que este módulo es la base para dar de alta nuevos títulos.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

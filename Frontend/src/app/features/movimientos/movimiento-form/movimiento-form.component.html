@@ -14,6 +14,12 @@
       <h2 class="form-title">
         {{ isEntrada() ? 'Registro de Entrada' : 'Registro de Salida' }}
       </h2>
+      <app-help-button
+        [title]="isEntrada() ? 'Entradas' : 'Salidas'"
+        [description]="isEntrada()
+          ? 'Registra el ingreso de libros al inventario, normalmente provenientes de un proveedor. Al guardar una entrada, el stock de cada libro aumenta automáticamente según las cantidades registradas en el detalle.'
+          : 'Registra la salida de libros del inventario, generalmente asociadas a un cliente (ventas, donaciones u otros). Al guardar una salida, el stock de los libros disminuye automáticamente según las cantidades indicadas.'">
+      </app-help-button>
     </div>
   </div>
 

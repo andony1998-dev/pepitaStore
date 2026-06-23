@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Proveedor' : 'Nuevo Proveedor' }}</h2>
+      <app-help-button
+        title="Proveedores"
+        description="Gestiona los datos de las personas o empresas que suministran los libros al inventario. Aquí registras nombre, dirección, teléfonos y correo, información que se vincula a los movimientos de entrada.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

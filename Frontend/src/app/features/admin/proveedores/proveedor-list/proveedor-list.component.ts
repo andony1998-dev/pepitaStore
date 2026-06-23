@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ProveedorService } from '../../../../core/services/proveedor.service';
 import { Proveedor } from '../../../../core/models/proveedor.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-proveedor-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HelpButtonComponent],
   templateUrl: './proveedor-list.component.html',
   styleUrl: './proveedor-list.component.css',
 })

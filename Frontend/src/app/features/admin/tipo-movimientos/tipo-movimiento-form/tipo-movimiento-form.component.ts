@@ -9,11 +9,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { TipoMovimientoService } from '../../../../core/services/tipo-movimiento.service';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-tipo-movimiento-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, HelpButtonComponent],
   templateUrl: './tipo-movimiento-form.component.html',
   styleUrl: './tipo-movimiento-form.component.css',
 })

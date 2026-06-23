@@ -11,11 +11,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { EstadoService } from '../../../../core/services/estado.service';
 import { AmbitoService } from '../../../../core/services/ambito.service';
 import { Ambito } from '../../../../core/models/ambito.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-estado-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, HelpButtonComponent],
   templateUrl: './estado-form.component.html',
   styleUrl: './estado-form.component.css',
 })

@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Tipo de Movimiento' : 'Nuevo Tipo de Movimiento' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Tipo de Movimiento' : 'Nuevo Tipo de Movimiento' }}</h2>
+      <app-help-button
+        title="Tipo Movimientos"
+        description="Define los tipos de operación que afectan el inventario y si cada uno suma (+1) o resta (-1) existencias. Esta configuración es clave porque determina automáticamente cómo se actualiza el stock al registrar entradas o salidas.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

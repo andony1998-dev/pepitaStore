@@ -5,12 +5,18 @@
       <h2 class="list-title">Gestión de Proveedores</h2>
       <p class="list-subtitle">Administra los proveedores registrados en el sistema</p>
     </div>
-    <a routerLink="/admin/proveedores/new" class="btn-primary">
+    <div class="flex items-center gap-2">
+      <app-help-button
+        title="Proveedores"
+        description="Gestiona los datos de las personas o empresas que suministran los libros al inventario. Aquí registras nombre, dirección, teléfonos y correo, información que se vincula a los movimientos de entrada.">
+      </app-help-button>
+      <a routerLink="/admin/proveedores/new" class="btn-primary">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
       </svg>
       Nuevo Proveedor
     </a>
+    </div>
   </div>
 
   <!-- Loading -->

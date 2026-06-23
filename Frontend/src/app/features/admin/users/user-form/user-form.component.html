@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+      <app-help-button
+        title="Usuarios"
+        description="Controla las cuentas que pueden acceder al sistema. Permite crear y editar usuarios con su nombre de acceso, correo y contraseña (almacenada de forma cifrada), y asignarles un rol que define a qué módulos podrán ingresar.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TipoMovimientoService } from '../../../../core/services/tipo-movimiento.service';
 import { TipoMovimiento } from '../../../../core/models/tipo-movimiento.model';
+import { HelpButtonComponent } from '../../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-tipo-movimiento-list',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HelpButtonComponent],
   templateUrl: './tipo-movimiento-list.component.html',
   styleUrl: './tipo-movimiento-list.component.css',
 })

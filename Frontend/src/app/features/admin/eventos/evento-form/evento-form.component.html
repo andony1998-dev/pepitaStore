@@ -7,7 +7,13 @@
       </svg>
       Volver
     </a>
-    <h2 class="form-title">{{ isEdit() ? 'Editar Evento' : 'Nuevo Evento' }}</h2>
+    <div class="flex items-center gap-2">
+      <h2 class="form-title">{{ isEdit() ? 'Editar Evento' : 'Nuevo Evento' }}</h2>
+      <app-help-button
+        title="Eventos"
+        description="Administra los eventos asociados a los movimientos (por ejemplo: ferias, donaciones o campañas específicas). Permite clasificar movimientos bajo un evento para facilitar su seguimiento y posterior análisis.">
+      </app-help-button>
+    </div>
   </div>
 
   <!-- Loading -->

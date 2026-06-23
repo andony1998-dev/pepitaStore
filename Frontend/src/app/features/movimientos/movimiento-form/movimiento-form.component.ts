@@ -17,11 +17,12 @@ import { Estado } from '../../../core/models/estado.model';
 import { Evento } from '../../../core/models/evento.model';
 import { Libro } from '../../../core/models/libro.model';
 import { CurrencyPipe } from '@angular/common';
+import { HelpButtonComponent } from '../../../shared/components/help-button/help-button.component';
 
 @Component({
   selector: 'app-movimiento-form',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, CurrencyPipe],
+  imports: [ReactiveFormsModule, RouterLink, CurrencyPipe, HelpButtonComponent],
   templateUrl: './movimiento-form.component.html',
   styleUrl: './movimiento-form.component.css',
 })

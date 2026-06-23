@@ -3,13 +3,14 @@ import { RouterLink } from '@angular/router';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { MovimientoService } from '../../../core/services/movimiento.service';
 import { Movimiento } from '../../../core/models/movimiento.model';
+import { HelpButtonComponent } from '../../../shared/components/help-button/help-button.component';
 
 type Filtro = 'todos' | 'entradas' | 'salidas';
 
 @Component({
   selector: 'app-consulta',
   standalone: true,
-  imports: [RouterLink, DatePipe, CurrencyPipe],
+  imports: [RouterLink, DatePipe, CurrencyPipe, HelpButtonComponent],
   templateUrl: './consulta.component.html',
   styleUrl: './consulta.component.css',
 })

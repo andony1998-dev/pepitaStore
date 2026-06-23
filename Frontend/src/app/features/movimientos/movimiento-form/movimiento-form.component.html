@@ -119,6 +119,19 @@
               </select>
             </div>
           }
+
+          <!-- Método de Pago (solo Salidas) -->
+          @if (!isEntrada()) {
+            <div class="field">
+              <label class="label">Método de Pago <span class="optional">(opcional)</span></label>
+              <select formControlName="metodoPagoId" class="input select">
+                <option [ngValue]="null">— Sin método de pago —</option>
+                @for (mp of metodosPago(); track mp.id) {
+                  <option [ngValue]="mp.id">{{ mp.descripcion }}</option>
+                }
+              </select>
+            </div>
+          }
         </div>
       </div>
 

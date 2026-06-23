@@ -10,12 +10,14 @@ import { ProveedorService } from '../../../core/services/proveedor.service';
 import { EstadoService } from '../../../core/services/estado.service';
 import { EventoService } from '../../../core/services/evento.service';
 import { LibroService } from '../../../core/services/libro.service';
+import { MetodoPagoService } from '../../../core/services/metodo-pago.service';
 import { TipoMovimiento } from '../../../core/models/tipo-movimiento.model';
 import { Cliente } from '../../../core/models/cliente.model';
 import { Proveedor } from '../../../core/models/proveedor.model';
 import { Estado } from '../../../core/models/estado.model';
 import { Evento } from '../../../core/models/evento.model';
 import { Libro } from '../../../core/models/libro.model';
+import { MetodoPago } from '../../../core/models/metodo-pago.model';
 import { CurrencyPipe } from '@angular/common';
 import { HelpButtonComponent } from '../../../shared/components/help-button/help-button.component';
 
@@ -37,6 +39,7 @@ export class MovimientoFormComponent implements OnInit {
   private estadoService    = inject(EstadoService);
   private eventoService    = inject(EventoService);
   private libroService     = inject(LibroService);
+  private metodoPagoService = inject(MetodoPagoService);
 
   // operacion: 1 = Entrada, -1 = Salida (viene de route.data)
   operacion = signal<1 | -1>(1);
@@ -53,6 +56,7 @@ export class MovimientoFormComponent implements OnInit {
   estados         = signal<Estado[]>([]);
   eventos         = signal<Evento[]>([]);
   libros          = signal<Libro[]>([]);
+  metodosPago     = signal<MetodoPago[]>([]);
 
   form = this.fb.group({
     tipoMovimientoId: [null as number | null, Validators.required],
@@ -61,6 +65,7 @@ export class MovimientoFormComponent implements OnInit {
     proveedorId:      [null as number | null],
     estadoId:         [null as number | null, Validators.required],
     eventoId:         [null as number | null],
+    metodoPagoId:     [null as number | null],
     detalles: this.fb.array([this.crearDetalleGroup()]),
   });
 
@@ -73,20 +78,22 @@ export class MovimientoFormComponent implements OnInit {
     this.operacion.set(op ?? 1);
 
     forkJoin({
-      tipos:      this.tipoService.getTipoMovimientos(),
-      clientes:   this.clienteService.getClientes(),
+      tipos:       this.tipoService.getTipoMovimientos(),
+      clientes:    this.clienteService.getClientes(),
       proveedores: this.proveedorService.getProveedores(),
-      estados:    this.estadoService.getEstados(),
-      eventos:    this.eventoService.getEventos(),
-      libros:     this.libroService.getLibros(),
+      estados:     this.estadoService.getEstados(),
+      eventos:     this.eventoService.getEventos(),
+      libros:      this.libroService.getLibros(),
+      metodosPago: this.metodoPagoService.getMetodosPago(),
     }).subscribe({
-      next: ({ tipos, clientes, proveedores, estados, eventos, libros }) => {
+      next: ({ tipos, clientes, proveedores, estados, eventos, libros, metodosPago }) => {
         this.tipoMovimientos.set(tipos.filter(t => t.operacion === this.operacion() && t.activo));
         this.clientes.set(clientes.filter(c => c.activo));
         this.proveedores.set(proveedores.filter(p => p.activo));
         this.estados.set(estados);
         this.eventos.set(eventos.filter(e => e.activo));
         this.libros.set(libros);
+        this.metodosPago.set(metodosPago.filter(m => m.activo));
         this.isLoading.set(false);
       },
       error: () => {
@@ -160,6 +167,7 @@ export class MovimientoFormComponent implements OnInit {
       proveedorId:      raw.proveedorId ? Number(raw.proveedorId) : undefined,
       estadoId:         Number(raw.estadoId),
       eventoId:         raw.eventoId ? Number(raw.eventoId) : undefined,
+      metodoPagoId:     raw.metodoPagoId ? Number(raw.metodoPagoId) : undefined,
       detalles: raw.detalles.map(d => ({
         libroId:             Number(d.libroId),
         cantidad:            Number(d.cantidad),

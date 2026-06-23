@@ -16,6 +16,7 @@ import { TipoMovimientosModule } from './tipo-movimientos/tipo-movimientos.modul
 import { ClientesModule } from './clientes/clientes.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
 import { MovimientosModule } from './movimientos/movimientos.module';
+import { MetodoPagoModule } from './metodo-pago/metodo-pago.module';
 import { Usuario } from './users/entities/usuario.entity';
 import { Rol } from './roles/entities/rol.entity';
 import { PermisoMenu } from './permisos/entities/permiso-menu.entity';
@@ -29,6 +30,7 @@ import { Cliente } from './clientes/entities/cliente.entity';
 import { Proveedor } from './proveedores/entities/proveedor.entity';
 import { Movimiento } from './movimientos/entities/movimiento.entity';
 import { DetalleMovimiento } from './movimientos/entities/detalle-movimiento.entity';
+import { MetodoPago } from './metodo-pago/entities/metodo-pago.entity';
 
 @Module({
   imports: [
@@ -49,7 +51,7 @@ import { DetalleMovimiento } from './movimientos/entities/detalle-movimiento.ent
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
-        entities: [Usuario, Rol, PermisoMenu, Autor, Libro, Evento, Ambito, Estado, TipoMovimiento, Cliente, Proveedor, Movimiento, DetalleMovimiento],
+        entities: [Usuario, Rol, PermisoMenu, Autor, Libro, Evento, Ambito, Estado, TipoMovimiento, Cliente, Proveedor, Movimiento, DetalleMovimiento, MetodoPago],
         synchronize: false, // La base de datos ya existe; no alterar el esquema
         ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       }),
@@ -67,6 +69,7 @@ import { DetalleMovimiento } from './movimientos/entities/detalle-movimiento.ent
     ClientesModule,
     ProveedoresModule,
     MovimientosModule,
+    MetodoPagoModule,
   ],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })

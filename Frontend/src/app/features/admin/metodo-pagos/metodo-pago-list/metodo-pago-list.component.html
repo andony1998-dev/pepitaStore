@@ -1,0 +1,101 @@
+<div class="metodo-pago-list-container">
+  <!-- Header -->
+  <div class="list-header">
+    <div>
+      <h2 class="list-title">Gestión Métodos de Pago</h2>
+      <p class="list-subtitle">Administra los métodos de pago disponibles en el sistema</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <app-help-button
+        title="Métodos de Pago"
+        description="Administra los métodos de pago que pueden utilizarse en las salidas del inventario, como efectivo, tarjeta, transferencia, entre otros. Solo los métodos activos estarán disponibles al registrar una salida.">
+      </app-help-button>
+      <a routerLink="/admin/metodo-pagos/new" class="btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+        </svg>
+        Nuevo Método
+      </a>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="status-message">
+      <div class="spinner"></div>
+      <span>Cargando métodos de pago...</span>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (errorMessage()) {
+    <div class="error-alert">
+      {{ errorMessage() }}
+      <button (click)="cargar()" class="retry-btn">Reintentar</button>
+    </div>
+  }
+
+  <!-- Table -->
+  @if (!isLoading() && !errorMessage()) {
+    <div class="table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (mp of metodosPago(); track mp.id) {
+            <tr [class.row-inactive]="!mp.activo">
+              <td>{{ mp.id }}</td>
+              <td class="cell-bold">{{ mp.descripcion }}</td>
+              <td>
+                @if (mp.activo) {
+                  <span class="badge active">Activo</span>
+                } @else {
+                  <span class="badge inactive">Inactivo</span>
+                }
+              </td>
+              <td class="actions-cell">
+                <a [routerLink]="['/admin/metodo-pagos', mp.id, 'edit']" class="action-btn edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 0 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg>
+                  Editar
+                </a>
+                <button
+                  class="action-btn"
+                  [class.deactivate]="mp.activo"
+                  [class.activate]="!mp.activo"
+                  [disabled]="togglingId() === mp.id"
+                  (click)="toggleActivo(mp)"
+                >
+                  @if (togglingId() === mp.id) {
+                    <div class="spinner-xs"></div>
+                  } @else if (mp.activo) {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                    Desactivar
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="action-icon">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    Activar
+                  }
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="empty-row">No hay métodos de pago registrados</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

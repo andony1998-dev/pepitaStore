@@ -7,6 +7,7 @@ import { Cliente } from '../../clientes/entities/cliente.entity';
 import { Proveedor } from '../../proveedores/entities/proveedor.entity';
 import { Estado } from '../../estados/entities/estado.entity';
 import { Evento } from '../../eventos/entities/evento.entity';
+import { MetodoPago } from '../../metodo-pago/entities/metodo-pago.entity';
 import { DetalleMovimiento } from './detalle-movimiento.entity';
 
 @Entity('movimientos')
@@ -54,6 +55,13 @@ export class Movimiento {
   @ManyToOne(() => Evento, { nullable: true })
   @JoinColumn({ name: 'evento_id' })
   evento: Evento | null;
+
+  @Column({ name: 'metodo_pago_id', type: 'int', nullable: true })
+  metodoPagoId: number | null;
+
+  @ManyToOne(() => MetodoPago, { nullable: true })
+  @JoinColumn({ name: 'metodo_pago_id' })
+  metodoPago: MetodoPago | null;
 
   @OneToMany(() => DetalleMovimiento, (d) => d.movimiento, { cascade: true })
   detalles: DetalleMovimiento[];

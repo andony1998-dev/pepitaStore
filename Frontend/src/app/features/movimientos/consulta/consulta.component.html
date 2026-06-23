@@ -155,6 +155,12 @@
           <span class="info-label">Usuario</span>
           <span class="info-value">{{ mov.usuario }}</span>
         </div>
+        @if (mov.tipoMovimiento?.operacion === -1) {
+          <div class="info-item">
+            <span class="info-label">Método de Pago</span>
+            <span class="info-value">{{ mov.metodoPago?.descripcion ?? '—' }}</span>
+          </div>
+        }
       </div>
 
       <!-- Tabla de libros -->

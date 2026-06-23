@@ -5,7 +5,7 @@ import { Movimiento } from './entities/movimiento.entity';
 import { DetalleMovimiento } from './entities/detalle-movimiento.entity';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 
-const RELATIONS_LIST = ['tipoMovimiento', 'cliente', 'proveedor', 'estado', 'evento', 'detalles', 'detalles.libro'];
+const RELATIONS_LIST = ['tipoMovimiento', 'cliente', 'proveedor', 'estado', 'evento', 'metodoPago', 'detalles', 'detalles.libro'];
 const RELATIONS_DETAIL = [...RELATIONS_LIST, 'detalles.libro', 'detalles.libro.autor'];
 
 @Injectable()
@@ -50,6 +50,7 @@ export class MovimientosService {
         estadoId: dto.estadoId,
         usuario,
         eventoId: dto.eventoId ?? null,
+        metodoPagoId: dto.metodoPagoId ?? null,
       });
       const saved = await manager.save(movimiento);
 

@@ -23,6 +23,8 @@ export interface Movimiento {
   usuario: string;
   eventoId: number | null;
   evento?: { id: number; nombre: string } | null;
+  metodoPagoId?: number | null;
+  metodoPago?: { id: number; descripcion: string } | null;
   detalles: DetalleMovimiento[];
 }
 
@@ -41,5 +43,6 @@ export interface CreateMovimientoRequest {
   proveedorId?: number;
   estadoId: number;
   eventoId?: number;
+  metodoPagoId?: number;
   detalles: CreateDetalleRequest[];
 }

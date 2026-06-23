@@ -267,6 +267,34 @@ export const routes: Routes = [
             (m) => m.EventoFormComponent
           ),
       },
+      // Administración - Métodos de Pago
+      {
+        path: 'admin/metodo-pagos',
+        canActivate: [permisoGuard],
+        data: { permiso: '/administracion/metodosPago' },
+        loadComponent: () =>
+          import('./features/admin/metodo-pagos/metodo-pago-list/metodo-pago-list.component').then(
+            (m) => m.MetodoPagoListComponent
+          ),
+      },
+      {
+        path: 'admin/metodo-pagos/new',
+        canActivate: [permisoGuard],
+        data: { permiso: '/administracion/metodosPago' },
+        loadComponent: () =>
+          import('./features/admin/metodo-pagos/metodo-pago-form/metodo-pago-form.component').then(
+            (m) => m.MetodoPagoFormComponent
+          ),
+      },
+      {
+        path: 'admin/metodo-pagos/:id/edit',
+        canActivate: [permisoGuard],
+        data: { permiso: '/administracion/metodosPago' },
+        loadComponent: () =>
+          import('./features/admin/metodo-pagos/metodo-pago-form/metodo-pago-form.component').then(
+            (m) => m.MetodoPagoFormComponent
+          ),
+      },
       // Movimientos - Entradas
       {
         path: 'movimientos/entradas',

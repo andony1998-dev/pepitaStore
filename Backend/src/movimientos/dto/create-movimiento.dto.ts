@@ -57,6 +57,11 @@ export class CreateMovimientoDto {
   @IsPositive()
   eventoId?: number;
 
+  @IsOptional()
+  @IsInt()
+  @IsPositive()
+  metodoPagoId?: number;
+
   @IsArray()
   @ArrayMinSize(1)
   @ValidateNested({ each: true })

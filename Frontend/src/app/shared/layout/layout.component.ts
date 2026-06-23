@@ -28,6 +28,7 @@ export class LayoutComponent {
   showClientes         = computed(() => this.authService.hasPermiso('/administracion/clientes'));
   showProveedores      = computed(() => this.authService.hasPermiso('/administracion/proveedores'));
   showEventos          = computed(() => this.authService.hasPermiso('/administracion/eventos'));
+  showMetodosPago      = computed(() => this.authService.hasPermiso('/administracion/metodosPago'));
   showEntradas     = computed(() => this.authService.hasPermiso('/movimientos/entradas'));
   showSalidas      = computed(() => this.authService.hasPermiso('/movimientos/salidas'));
   showConsulta     = computed(() => this.authService.hasPermiso('/movimientos/consulta'));
@@ -37,7 +38,8 @@ export class LayoutComponent {
   // Visibilidad de secciones completas
   showAdminSection = computed(() =>
     this.showUsuarios() || this.showRoles() || this.showAmbitos() || this.showEstados() ||
-    this.showTipoMovimientos() || this.showClientes() || this.showProveedores() || this.showEventos()
+    this.showTipoMovimientos() || this.showClientes() || this.showProveedores() || this.showEventos() ||
+    this.showMetodosPago()
   );
   showMovimientosSection = computed(() =>
     this.showEntradas() || this.showSalidas() || this.showConsulta()

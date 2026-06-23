@@ -67,4 +67,9 @@ export class ConsultaComponent implements OnInit {
   contadorSalidas = computed(() =>
     this.movimientos().filter(m => m.tipoMovimiento?.operacion === -1).length
   );
+
+  selectedMovimiento = signal<Movimiento | null>(null);
+
+  openDetalle(mov: Movimiento): void { this.selectedMovimiento.set(mov); }
+  closeDetalle(): void { this.selectedMovimiento.set(null); }
 }

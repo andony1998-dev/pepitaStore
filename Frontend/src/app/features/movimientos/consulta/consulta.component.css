@@ -211,3 +211,139 @@
   color: #94a3b8;
   padding: 48px 16px !important;
 }
+
+/* Filas clicables */
+.row-clickable { cursor: pointer; }
+.row-clickable:hover td { background-color: #eff6ff; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-panel {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 760px;
+  max-height: 85vh;
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.modal-tipo {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.modal-close {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #475569;
+  background: #f1f5f9;
+}
+
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.5rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.info-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.info-value {
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.modal-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.5rem 0.25rem;
+  flex-shrink: 0;
+}
+
+.modal-table-wrapper {
+  overflow-y: auto;
+  padding: 0 1.5rem 1.5rem;
+  flex: 1;
+}
+
+.cell-isbn {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.total-label {
+  text-align: right;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #64748b;
+  padding: 12px 14px;
+}
+
+.total-value {
+  text-align: right;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  padding: 12px 14px;
+  white-space: nowrap;
+}

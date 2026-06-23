@@ -5,7 +5,7 @@ import { Movimiento } from './entities/movimiento.entity';
 import { DetalleMovimiento } from './entities/detalle-movimiento.entity';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
 
-const RELATIONS_LIST = ['tipoMovimiento', 'cliente', 'proveedor', 'estado', 'evento', 'detalles'];
+const RELATIONS_LIST = ['tipoMovimiento', 'cliente', 'proveedor', 'estado', 'evento', 'detalles', 'detalles.libro'];
 const RELATIONS_DETAIL = [...RELATIONS_LIST, 'detalles.libro', 'detalles.libro.autor'];
 
 @Injectable()

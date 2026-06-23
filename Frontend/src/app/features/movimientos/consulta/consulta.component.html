@@ -78,7 +78,7 @@
             </tr>
           }
           @for (mov of movimientosFiltrados(); track mov.id) {
-            <tr>
+            <tr class="row-clickable" (click)="openDetalle(mov)">
               <td class="cell-id">#{{ mov.id }}</td>
               <td>
                 <div class="tipo-cell">
@@ -110,3 +110,90 @@
     </div>
   }
 </div>
+
+@if (selectedMovimiento(); as mov) {
+  <div class="modal-backdrop" (click)="closeDetalle()">
+    <div class="modal-panel" (click)="$event.stopPropagation()">
+
+      <!-- Encabezado -->
+      <div class="modal-header">
+        <div class="modal-title-row">
+          <span class="op-badge"
+            [class.entrada]="mov.tipoMovimiento?.operacion === 1"
+            [class.salida]="mov.tipoMovimiento?.operacion === -1">
+            {{ mov.tipoMovimiento?.operacion === 1 ? '+' : '−' }}
+          </span>
+          <h3 class="modal-title">Movimiento #{{ mov.id }}</h3>
+          <span class="modal-tipo">{{ mov.tipoMovimiento?.descripcion }}</span>
+        </div>
+        <button class="modal-close" (click)="closeDetalle()">✕</button>
+      </div>
+
+      <!-- Info general -->
+      <div class="modal-info-grid">
+        <div class="info-item">
+          <span class="info-label">Fecha</span>
+          <span class="info-value">{{ mov.fecha | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Estado</span>
+          <span class="info-value"><span class="estado-badge">{{ mov.estado?.nombre ?? '—' }}</span></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">{{ mov.tipoMovimiento?.operacion === 1 ? 'Proveedor' : 'Cliente' }}</span>
+          <span class="info-value">
+            {{ mov.tipoMovimiento?.operacion === 1
+               ? (mov.proveedor?.nombreProveedor ?? '—')
+               : (mov.cliente?.nombre ?? '—') }}
+          </span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Evento</span>
+          <span class="info-value">{{ mov.evento?.nombre ?? '—' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Usuario</span>
+          <span class="info-value">{{ mov.usuario }}</span>
+        </div>
+      </div>
+
+      <!-- Tabla de libros -->
+      <h4 class="modal-section-title">Detalle de libros</h4>
+      <div class="modal-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Libro</th>
+              <th>ISBN</th>
+              <th class="col-right">Cant.</th>
+              <th class="col-right">Precio unit.</th>
+              <th class="col-right">Desc. %</th>
+              <th class="col-right">Total línea</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (d of mov.detalles; track d.id) {
+              <tr>
+                <td>{{ d.libro?.titulo ?? '—' }}</td>
+                <td class="cell-isbn">{{ d.libro?.isbn ?? '—' }}</td>
+                <td class="col-right">{{ d.cantidad }}</td>
+                <td class="col-right">{{ d.precioUnitario | currency:'GTQ ':'symbol':'1.2-2' }}</td>
+                <td class="col-right">{{ d.porcentajeDescuento }}%</td>
+                <td class="col-right cell-total">{{ d.precioFinal | currency:'GTQ ':'symbol':'1.2-2' }}</td>
+              </tr>
+            } @empty {
+              <tr><td colspan="6" class="empty-row">Sin detalles registrados</td></tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5" class="total-label">Total general</td>
+              <td class="total-value">{{ totalMovimiento(mov) | currency:'GTQ ':'symbol':'1.2-2' }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    </div>
+  </div>
+}

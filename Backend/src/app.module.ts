@@ -35,8 +35,8 @@ import { MetodoPago } from './metodo-pago/entities/metodo-pago.entity';
 @Module({
   imports: [
     ThrottlerModule.forRoot([
-      { name: 'short', ttl: 60_000, limit: 5 },
-      { name: 'long', ttl: 15 * 60_000, limit: 100 },
+      { name: 'short', ttl: 60_000, limit: 50 },
+      { name: 'long', ttl: 15 * 60_000, limit: 500 },
     ]),
     ConfigModule.forRoot({
       isGlobal: true,

@@ -11,7 +11,7 @@ import { Roles } from './decorators/roles.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Throttle({ short: { limit: 5, ttl: 60_000 } })
+  @Throttle({ short: { limit: 10, ttl: 60_000 } })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() dto: LoginDto) {
